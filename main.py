@@ -62,7 +62,11 @@ def start():
               "region": "us-east-1"
     }
     qs = urllib.urlencode(values)
-    gather.play(hostname + 'polly_text2speech?' + qs)
+
+    if  'http://' in output_text:
+    	gather.play(hostname + 'polly_text2speech?' + qs)
+    else:
+    	gather.play(output_text);
     resp.append(gather)
 
     # If gather is missing (no speech), redirect to process speech again
