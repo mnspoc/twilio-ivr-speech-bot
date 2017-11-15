@@ -58,7 +58,11 @@ def start():
     gather = Gather(input="speech", hints=hints, language=twilio_asr_language, timeout="3", action=action_url, method="POST")
 
 
-    if  'http://' in output_text:
+    if  'https://' in output_text:
+        audioFiles = output_text.split('|');
+        for audioFile in audioFiles :
+    		gather.play(audioFile);
+    else:
          # Prepare for next set of user Speech
          # TTS the bot response
          values = {"text": output_text,
@@ -68,8 +72,6 @@ def start():
          qs = urllib.urlencode(values)
 
     	 gather.play(hostname + 'polly_text2speech?' + qs)
-    else:
-    	gather.play(output_text);
 
 
     resp.append(gather)
@@ -106,12 +108,18 @@ def process_speech():
     sys.stdout.flush()
 
     resp = VoiceResponse()
-    if (confidence > 0.5):
+    if (confidence >= 0.0):
         # Step 1: Call Bot for intent analysis - API.AI Bot
         intent_name, output_text, dialog_state = apiai_text_to_intent(apiai_client_access_key, input_text, user_id, apiai_language)
 
         # Step 2: Construct TwiML
         if dialog_state in ['in-progress']:
+          if  'https://' in output_text:
+             audioFiles = output_text.split('|');
+             for audioFile in audioFiles :
+                    resp.play(audioFile);
+             resp.dial('+447477471576'); 
+          else:
             values = {"prior_text": output_text, "prior_dialog_state": dialog_state}
             qs2 = urllib.urlencode(values)
             action_url = "/process_speech?" + qs2
@@ -135,21 +143,34 @@ def process_speech():
             action_url = "/process_speech?" + qs3
             resp.redirect(action_url)
         elif dialog_state in ['complete']:
+          print("COMPLETED STATE" + output_text);
+	  if  'https://' in output_text:
+             audioFiles = output_text.split('|');
+             for audioFile in audioFiles :
+                    resp.play(audioFile);
+             resp.dial('+447477471576');
+          else:
             values = {"text": output_text,
                     "polly_voiceid": polly_voiceid,
                     "region": "us-east-1"
             }
             qs = urllib.urlencode(values)
             resp.play(hostname + 'polly_text2speech?' + qs)
-            resp.hangup()
+            resp.dial('+447477471576');
         elif dialog_state in ['Failed']:
+	  if  'https://' in output_text:
+             audioFiles = output_text.split('|');
+             for audioFile in audioFiles :
+                    resp.play(audioFile);
+             resp.dial('+447477471576');
+          else:
             values = {"text": "I am sorry, there was an error.  Please call again!",
                     "polly_voiceid": polly_voiceid,
                     "region": "us-east-1"
             }
             qs = urllib.urlencode(values)
             resp.play(hostname + 'polly_text2speech?' + qs)
-            resp.hangup()
+            resp.dial.number('+447477471576');
     else:
         # We didn't get STT of higher confidence, replay the prior conversation
         output_text = prior_text
