@@ -18,8 +18,8 @@ aws_secret_key = os.environ["AWS_SECRET_KEY"]
 
 apiai_url = "https://api.api.ai/v1/query"
 apiai_querystring = {"v": "20150910"}
-registered_users = {"+447477471234": "Ameer",
-                   "+447481191234": "Doug"
+registered_users = {"+447477471234": "Akash",
+                   "+447481191234": "Customer"
 }
 # Adjust the hints for improved Speech to Text
 hints = "1 one first, 2 two second, 20 twenty, 25 twentyfifth, 6 sixth twentysixth, sir albert, westin, hyatt, inter continental, march, april, may, june"
@@ -132,7 +132,7 @@ def process_speech():
              audioFiles = output_text.split('|');
              for audioFile in audioFiles :
                     resp.play(audioFile);
-             resp.dial('+447477471576'); 
+             resp.dial('+443330148000'); 
           else:
             values = {"prior_text": output_text, "prior_dialog_state": dialog_state}
             qs2 = urllib.urlencode(values)
@@ -162,7 +162,7 @@ def process_speech():
              audioFiles = output_text.split('|');
              for audioFile in audioFiles :
                     resp.play(audioFile);
-             resp.dial('+447477471576');
+             resp.dial('+443330148000');
           else:
             values = {"text": output_text,
                     "polly_voiceid": polly_voiceid,
@@ -170,13 +170,13 @@ def process_speech():
             }
             qs = urllib.urlencode(values)
             resp.play(hostname + 'polly_text2speech?' + qs)
-            resp.dial('+447477471576');
+            resp.dial('+443330148000');
         elif dialog_state in ['Failed']:
 	  if  'https://' in output_text:
              audioFiles = output_text.split('|');
              for audioFile in audioFiles :
                     resp.play(audioFile);
-             resp.dial('+447477471576');
+             resp.dial('+443330148000');
           else:
             values = {"text": "I am sorry, there was an error.  Please call again!",
                     "polly_voiceid": polly_voiceid,
@@ -184,7 +184,7 @@ def process_speech():
             }
             qs = urllib.urlencode(values)
             resp.play(hostname + 'polly_text2speech?' + qs)
-            resp.dial.number('+447477471576');
+            resp.dial.number('+443330148000');
     else:
         # We didn't get STT of higher confidence, replay the prior conversation
         output_text = prior_text
