@@ -55,7 +55,7 @@ def start():
     values = {"prior_text": output_text}
     qs = urllib.urlencode(values)
     action_url = "/process_speech?" + qs
-    gather = Gather(input="speech", hints=hints, language=twilio_asr_language, timeout="3", action=action_url, method="POST")
+    gather = Gather(input="speech", hints=hints, language=twilio_asr_language, speech_timeout="auto", action=action_url, method="POST")
 
 
     if  'https://' in output_text:
