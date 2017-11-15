@@ -51,22 +51,27 @@ def start():
     output_text = output['result']['fulfillment']['speech']
     output_text = output_text.decode("utf-8")
     resp = VoiceResponse()
-    # Prepare for next set of user Speech
+
     values = {"prior_text": output_text}
     qs = urllib.urlencode(values)
     action_url = "/process_speech?" + qs
     gather = Gather(input="speech", hints=hints, language=twilio_asr_language, timeout="3", action=action_url, method="POST")
-    # TTS the bot response
-    values = {"text": output_text,
-              "polly_voiceid": polly_voiceid,
-              "region": "us-east-1"
-    }
-    qs = urllib.urlencode(values)
+
 
     if  'http://' in output_text:
-    	gather.play(hostname + 'polly_text2speech?' + qs)
+         # Prepare for next set of user Speech
+         # TTS the bot response
+         values = {"text": output_text,
+                   "polly_voiceid": polly_voiceid,
+                   "region": "us-east-1"
+         }
+         qs = urllib.urlencode(values)
+
+    	 gather.play(hostname + 'polly_text2speech?' + qs)
     else:
     	gather.play(output_text);
+
+
     resp.append(gather)
 
     # If gather is missing (no speech), redirect to process speech again
