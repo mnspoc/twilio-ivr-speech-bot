@@ -41,7 +41,7 @@ def start():
         'authorization': "Bearer " + apiai_client_access_key,
         'content-type': "application/json"
     }
-    payload = {'event': {'name':'book_hotel_welcome', 'data': {'user_name': caller_name}},
+    payload = {'event': {'name':'mns_sns_uc', 'data': {'user_name': caller_name}},
                'lang': apiai_language,
                'sessionId': user_id
     }
@@ -77,7 +77,9 @@ def start():
     resp.append(gather)
 
     # If gather is missing (no speech), redirect to process speech again
-    values = {"prior_text": output_text,
+    values = {"force_dialog_state": True,
+              "forced_dialog_state": 'complete',
+              "prior_text": output_text,
               "polly_voiceid": polly_voiceid,
               "twilio_asr_language": twilio_asr_language,
               "apiai_language": apiai_language,
@@ -107,10 +109,22 @@ def process_speech():
     print "Twilio Speech to Text: " + input_text + " Confidence: " + str(confidence)
     sys.stdout.flush()
 
+    forceDialogState=request.values.get("force_dialog_state");
+    forcedDialogState=request.values.get("forced_dialog_state");
+
+    if input_text == "":
+       input_text = "unknown speech" 
+
     resp = VoiceResponse()
     if (confidence >= 0.0):
         # Step 1: Call Bot for intent analysis - API.AI Bot
+        
         intent_name, output_text, dialog_state = apiai_text_to_intent(apiai_client_access_key, input_text, user_id, apiai_language)
+
+
+        if forceDialogState :
+           dialog_state =  forcedDialogState
+
 
         # Step 2: Construct TwiML
         if dialog_state in ['in-progress']:
