@@ -4,7 +4,10 @@ import sys
 import urllib
 import requests
 import json
-from flask import Flask, request, Response, make_response
+from flask import Flask, request, Response, make_response, jsonify, send_from_directory
+# from flask_cors import CORS, cross_origin
+from requests.auth import HTTPBasicAuth
+import logging
 from contextlib import closing
 # Twilio Helper Library
 from twilio.twiml.voice_response import VoiceResponse, Gather
@@ -322,8 +325,7 @@ def token():
     token.add_grant(sync_grant)
     # Return token info as JSON
     return jsonify(identity=identity, token=token.to_jwt().decode('utf-8’))
-
-
+								  
 #####
 ##### AWS Polly for Text to Speech
 ##### This function calls Polly and then streams out the in-memory media in mp3 format
