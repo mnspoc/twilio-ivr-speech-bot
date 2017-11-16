@@ -10,11 +10,21 @@ from contextlib import closing
 from twilio.twiml.voice_response import VoiceResponse, Gather
 # AWS Python SDK
 import boto3
+from datetime import datetime
+from twilio.rest import Client
+from twilio.jwt.access_token import AccessToken
+from twilio.jwt.access_token.grants import SyncGrant
+from twilio.twiml.voice_response import VoiceResponse, Gather
+
 
 # Setup global variables
 apiai_client_access_key = os.environ["APIAPI_CLIENT_ACCESS_KEY"]
 aws_access_key_id = os.environ["AWS_ACCESS_KEY_ID"]
 aws_secret_key = os.environ["AWS_SECRET_KEY"]
+mnsphonenumber = os.environ["MNS_SNS_NUMBER"]
+twilio_sync_service_id = os.environ["TWILIO_SYNC_SID"]
+sync_map = 'ASRBotEvents'
+syncUrl = 'https://sync.twilio.com/v1/Services/' + twilio_sync_service_id + '/Maps/' + sync_map + '/Items'
 
 apiai_url = "https://api.api.ai/v1/query"
 apiai_querystring = {"v": "20150910"}
@@ -115,6 +125,11 @@ def process_speech():
     if input_text == "":
        input_text = "unknown speech" 
 
+
+    local_request_dict = {}
+    local_request_dict = request.form.to_dict(); 
+
+
     resp = VoiceResponse()
     if (confidence >= 0.0):
         # Step 1: Call Bot for intent analysis - API.AI Bot
@@ -132,7 +147,8 @@ def process_speech():
              audioFiles = output_text.split('|');
              for audioFile in audioFiles :
                     resp.play(audioFile);
-             resp.dial('+443330148000'); 
+             resp.dial(mnsphonenumber); 
+	     add_to_sync(local_request_dict,intent_name):
           else:
             values = {"prior_text": output_text, "prior_dialog_state": dialog_state}
             qs2 = urllib.urlencode(values)
@@ -162,7 +178,8 @@ def process_speech():
              audioFiles = output_text.split('|');
              for audioFile in audioFiles :
                     resp.play(audioFile);
-             resp.dial('+443330148000');
+             resp.dial(mnsphonenumber);
+	     add_to_sync(local_request_dict,intent_name):	
           else:
             values = {"text": output_text,
                     "polly_voiceid": polly_voiceid,
@@ -170,13 +187,15 @@ def process_speech():
             }
             qs = urllib.urlencode(values)
             resp.play(hostname + 'polly_text2speech?' + qs)
-            resp.dial('+443330148000');
+            resp.dial(mnsphonenumber);
+	     add_to_sync(local_request_dict,intent_name):		
         elif dialog_state in ['Failed']:
 	  if  'https://' in output_text:
              audioFiles = output_text.split('|');
              for audioFile in audioFiles :
                     resp.play(audioFile);
-             resp.dial('+443330148000');
+             resp.dial(mnsphonenumber);
+	     add_to_sync(local_request_dict,intent_name):	
           else:
             values = {"text": "I am sorry, there was an error.  Please call again!",
                     "polly_voiceid": polly_voiceid,
@@ -184,7 +203,7 @@ def process_speech():
             }
             qs = urllib.urlencode(values)
             resp.play(hostname + 'polly_text2speech?' + qs)
-            resp.dial.number('+443330148000');
+            resp.dial.number(mnsphonenumber);
     else:
         # We didn't get STT of higher confidence, replay the prior conversation
         output_text = prior_text
@@ -263,6 +282,47 @@ def apiai_fulfillment():
     r.headers['Content-Type'] = 'application/json'
     print str(r)
     return r
+
+
+def add_to_sync(request_dict,apiIntent):
+    request_dict['initial_question'] = ''
+    request_dict['CallDate'] = datetime.now().strftime("%Y-%m-%d-%H:%M:%S")
+    request_dict['Intent'] = apiIntent
+    callback_data = json.dumps(request_dict)
+    print(callback_data)
+
+    item_key = request_dict['CallSid']
+    new_data = {'Key': item_key,
+            'Data': callback_data}
+    print(new_data)
+    sync_map = 'ASRBotEvents'
+    url = 'https://sync.twilio.com/v1/Services/' + twilio_sync_service_id + '/Maps/' + sync_map + '/Items'
+    response = requests.request("POST", url, data=new_data, auth=HTTPBasicAuth(twilio_account_sid, twilio_auth_token))
+    print(response.text)
+
+
+######
+##### Directory for static assets for Dashboard
+@app.route('/<path:path>')
+def send_js(path):
+    print (path)
+    return send_from_directory('static', path)
+
+
+#### sync token
+#############
+@app.route('/token')
+def token():
+    # get the userid from the incoming request
+    identity = request.values.get('identity', None)
+    # Create access token with credentials
+    token = AccessToken(twilio_account_sid, twilio_api_key, twilio_api_secret, identity=identity)
+    # Create a Sync grant and add to token
+    sync_grant = SyncGrant(service_sid=twilio_sync_service_id)
+    token.add_grant(sync_grant)
+    # Return token info as JSON
+return jsonify(identity=identity, token=token.to_jwt().decode('utf-8’))
+
 
 #####
 ##### AWS Polly for Text to Speech
