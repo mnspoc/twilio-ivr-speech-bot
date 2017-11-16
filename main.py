@@ -321,7 +321,7 @@ def token():
     sync_grant = SyncGrant(service_sid=twilio_sync_service_id)
     token.add_grant(sync_grant)
     # Return token info as JSON
-return jsonify(identity=identity, token=token.to_jwt().decode('utf-8’))
+    return jsonify(identity=identity, token=token.to_jwt().decode('utf-8’))
 
 
 #####
