@@ -26,6 +26,9 @@ aws_access_key_id = os.environ["AWS_ACCESS_KEY_ID"]
 aws_secret_key = os.environ["AWS_SECRET_KEY"]
 mnsphonenumber = os.environ["MNS_SNS_NUMBER"]
 twilio_sync_service_id = os.environ["TWILIO_SYNC_SID"]
+twilio_account_sid = os.environ["TWILIO_ACCOUNT_SID"]
+twilio_auth_token = os.environ["TWILIO_AUTH_TOKEN"]
+
 sync_map = 'ASRBotEvents'
 syncUrl = 'https://sync.twilio.com/v1/Services/' + twilio_sync_service_id + '/Maps/' + sync_map + '/Items'
 
