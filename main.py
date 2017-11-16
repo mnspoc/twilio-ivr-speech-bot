@@ -144,6 +144,7 @@ def process_speech():
         
         intent_name, output_text, dialog_state = apiai_text_to_intent(apiai_client_access_key, input_text, user_id, apiai_language)
         print("intent:" + json.dumps(intent_name))
+	apiai_intent_name = intent_name[0].name
 
         if forceDialogState :
            dialog_state =  forcedDialogState
@@ -156,7 +157,7 @@ def process_speech():
              for audioFile in audioFiles :
                     resp.play(audioFile);
              resp.dial(mnsphonenumber); 
-	     add_to_sync(local_request_dict,intent_name)
+	     add_to_sync(local_request_dict,apiai_intent_name)
           else:
             values = {"prior_text": output_text, "prior_dialog_state": dialog_state}
             qs2 = urllib.urlencode(values)
@@ -187,7 +188,7 @@ def process_speech():
              for audioFile in audioFiles :
                     resp.play(audioFile);
              resp.dial(mnsphonenumber);
-	     add_to_sync(local_request_dict,intent_name)	
+	     add_to_sync(local_request_dict,apiai_intent_name)	
           else:
             values = {"text": output_text,
                     "polly_voiceid": polly_voiceid,
@@ -196,14 +197,14 @@ def process_speech():
             qs = urllib.urlencode(values)
             resp.play(hostname + 'polly_text2speech?' + qs)
             resp.dial(mnsphonenumber)
-	    add_to_sync(local_request_dict, intent_name)		
+	    add_to_sync(local_request_dict, apiai_intent_name)		
         elif dialog_state in ['Failed']:
 	  if  'https://' in output_text:
              audioFiles = output_text.split('|');
              for audioFile in audioFiles :
                     resp.play(audioFile);
              resp.dial(mnsphonenumber);
-	     add_to_sync(local_request_dict,intent_name)	
+	     add_to_sync(local_request_dict,apiai_intent_name)	
           else:
             values = {"text": "I am sorry, there was an error.  Please call again!",
                     "polly_voiceid": polly_voiceid,
