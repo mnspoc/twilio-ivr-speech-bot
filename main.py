@@ -187,8 +187,8 @@ def process_speech():
             }
             qs = urllib.urlencode(values)
             resp.play(hostname + 'polly_text2speech?' + qs)
-            resp.dial(mnsphonenumber);
-	     add_to_sync(local_request_dict,intent_name)		
+            resp.dial(mnsphonenumber)
+	    add_to_sync(local_request_dict, intent_name)		
         elif dialog_state in ['Failed']:
 	  if  'https://' in output_text:
              audioFiles = output_text.split('|');
