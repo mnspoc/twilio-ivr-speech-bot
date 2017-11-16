@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Twilio Real-Time ASR Dashboard">
+        <meta name="author" content="Ameer Badri, Twilio">
+        <title>Twilio ASR Dashboard</title>
+        <!--  <link href="style.css" rel="stylesheet"> -->
+        <!-- import CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css"/>
+        <link rel="stylesheet" href="/static/asr_dashboard.css"/>
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body style="">
+        <div class="ui fluid container" title="ASR Dashboard">
+            <div id="asrdashboard" v-cloak>
+                <table class="ui table">
+                        <thead>
+                            <tr>
+                                <th class="two wide left aligned"><img src="/images/mandslogo.png" class="ui tiny image"></th>
+                                <th class="nine wide center aligned"><h2 class="ui center aligned header"> Marks and Spencer ASR Real-time Dashboard</h2></th>                            
+                                <th class="one wide right aligned"><img src="/images/twiliologo.svg" class="ui small image"></th>
+                            </tr>
+                        </thead>
+                </table>
+                <table id="logdata" class="ui celled padded table">
+                    <thead>
+                        <tr>
+                            <th class="two wide">Date Created</th>
+                            <th class="one wide">From</th>
+                            <th class="six wide center aligned">ASR</th>                            
+                            <th class="two wide">ASR Confidence</th>
+                            <th class="two wide">Intent</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="call in reverseCallList" :key="call.CallSid">
+                            <td class="left aligned">
+                                {{call.CallDate}}
+                            </td>
+                            <td class="left aligned"> 
+                                {{call.From}}
+                            </td>
+                            <td class="left aligned">
+                                <h3>{{call.SpeechResult}}</h3>
+                            </td>  
+                            <td class="left aligned">
+                                {{call.ASRConfidence}}%
+                            </td>                                                      
+                            <td class="single line">
+                                {{call.Intent}}
+                            </td>
+                        <tr>
+                    </tbody>
+                </table>    
+            </div>
+        </div>    
+        <!-- <div>
+        <p><pre>data: {{$data}}</pre></p>
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>
+        <script src="https://unpkg.com/vue"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="https://media.twiliocdn.com/sdk/js/sync/releases/0.5.10/twilio-sync.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
+        <script src="/asr_dashboard.js"></script>
+    </body>
+</html>
