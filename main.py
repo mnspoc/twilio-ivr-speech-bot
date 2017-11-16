@@ -142,9 +142,7 @@ def process_speech():
     if (confidence >= 0.0):
         # Step 1: Call Bot for intent analysis - API.AI Bot
         
-        intent_name, output_text, dialog_state = apiai_text_to_intent(apiai_client_access_key, input_text, user_id, apiai_language)
-        print("intent:" + json.dumps(intent_name))
-	apiai_intent_name = intent_name[0].name
+        intent_name, output_text, dialog_state ,apiai_intent_name  = apiai_text_to_intent(apiai_client_access_key, input_text, user_id, apiai_language)
 
         if forceDialogState :
            dialog_state =  forcedDialogState
@@ -274,8 +272,11 @@ def apiai_text_to_intent(apiapi_client_access_key, input_text, user_id, language
         dialog_state = 'in-progress'
     else:
         dialog_state = 'complete'
+	
+    output_intent_name = output['result']['metadata']['intentName']
+    print("Intent Name" + output_intent_name)
 
-    return intent_stage, output_text, dialog_state
+    return intent_stage, output_text, dialog_state,output_intent_name
 
 #####
 ##### API.API fulfillment webhook (You can enable this in API.AI console)
