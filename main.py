@@ -302,6 +302,7 @@ def add_to_sync(request_dict,apiIntent):
     url = 'https://sync.twilio.com/v1/Services/' + twilio_sync_service_id + '/Maps/' + sync_map + '/Items'
     response = requests.request("POST", url, data=new_data, auth=HTTPBasicAuth(twilio_account_sid, twilio_auth_token))
     print(response.text)
+    return 'OK'
 
 
 ######
