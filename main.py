@@ -28,6 +28,8 @@ mnsphonenumber = os.environ["MNS_SNS_NUMBER"]
 twilio_sync_service_id = os.environ["TWILIO_SYNC_SID"]
 twilio_account_sid = os.environ["TWILIO_ACCOUNT_SID"]
 twilio_auth_token = os.environ["TWILIO_AUTH_TOKEN"]
+twilio_api_key = os.environ["TWILIO_API_KEY"]
+twilio_api_secret = os.environ["TWILIO_API_SECRET"]
 
 sync_map = 'ASRBotEvents'
 syncUrl = 'https://sync.twilio.com/v1/Services/' + twilio_sync_service_id + '/Maps/' + sync_map + '/Items'
