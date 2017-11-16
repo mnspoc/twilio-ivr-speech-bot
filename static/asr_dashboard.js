@@ -2,7 +2,7 @@ var asrdashboard = new Vue({
     el: '#asrdashboard',
     data: {
       headerMessage: 'ASR Bot Real-Time Dashboard',
-      loggedUser: "ameer@twilio.com",
+      loggedUser: "mnspoc@gmail.com",
       userAuthenticated: false,
       syncMode: false,
       syncStatus: "Disconnected",
