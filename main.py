@@ -143,7 +143,7 @@ def process_speech():
         # Step 1: Call Bot for intent analysis - API.AI Bot
         
         intent_name, output_text, dialog_state = apiai_text_to_intent(apiai_client_access_key, input_text, user_id, apiai_language)
-
+        print("intent:" + intent_name)
 
         if forceDialogState :
            dialog_state =  forcedDialogState
