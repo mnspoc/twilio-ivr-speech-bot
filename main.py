@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
+from twilio.rest import Client
 import os
 import sys
 import urllib
 import requests
 import json
-from twilio.rest
-import Client
 from flask import Flask, request, Response, make_response, jsonify, send_from_directory
 # from flask_cors import CORS, cross_origin
 from requests.auth import HTTPBasicAuth
