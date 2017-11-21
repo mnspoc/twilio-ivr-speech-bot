@@ -366,6 +366,17 @@ def polly_text2speech():
         print("Could not stream audio")
         return "Error"
 
+@app.route('/retrieve_asr_details', methods=['GET', 'POST'])
+def retrievetasrdetails():
+    sync_map_details = []
+    client = Client(twilio_account_sid, twilio_auth_token)
+    sync_map = 'ASRBotEvents'
+    map_items = client.sync.services(twilio_sync_service_id).sync_maps(sync_map).sync_map_items.list()
+    for item in map_items:
+        sync_map_details.append(item.data)   
+        # print (item.data)
+    return json.dumps(sync_map_details)
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug = True)
 
