@@ -20,7 +20,7 @@ var asrdashboard = new Vue({
           call['From'] = data[i].value['From'];
           call['CallStatus'] = data[i].value['CallStatus'];
           call['SpeechResult'] = data[i].value['SpeechResult'];
-          call['ASRConfidence'] = data[i].value['Confidence'];
+          call['ASRConfidence'] = Math.round((parseFloat(data[i].value['Confidence']) * 100.00));
           call['Intent'] = data[i].value['Intent'];
           self.callList.push(call);
         }
@@ -35,7 +35,7 @@ var asrdashboard = new Vue({
         call['From'] = data.value['From'];
         call['CallStatus'] = data.value['CallStatus'];
         call['SpeechResult'] = data.value['SpeechResult'];
-        call['ASRConfidence'] = data.value['Confidence'];
+        call['ASRConfidence'] = Math.round((parseFloat(data[i].value['Confidence']) * 100.00));
         call['Intent'] = data.value['Intent'];
         self.callList.push(call);
         self.callList = _.orderBy(self.callList, ['CallDate'], ['desc']);
