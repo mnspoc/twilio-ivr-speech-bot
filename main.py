@@ -35,7 +35,7 @@ twilio_api_secret = os.environ["TWILIO_API_SECRET"]
 sync_map = 'ASRBotEvents'
 syncUrl = 'https://sync.twilio.com/v1/Services/' + twilio_sync_service_id + '/Maps/' + sync_map + '/Items'
 
-apiai_url = "https://api.api.ai/v1/queryakash"
+apiai_url = "https://api.api.ai/v1/query"
 apiai_querystring = {"v": "20150910"}
 registered_users = {"+447477471234": "Akash",
                    "+447481191234": "Customer"
