@@ -31,6 +31,7 @@ twilio_account_sid = os.environ["TWILIO_ACCOUNT_SID"]
 twilio_auth_token = os.environ["TWILIO_AUTH_TOKEN"]
 twilio_api_key = os.environ["TWILIO_API_KEY"]
 twilio_api_secret = os.environ["TWILIO_API_SECRET"]
+access_key = os.environ["ACCESS_KEY"]
 
 sync_map = 'ASRBotEvents'
 syncUrl = 'https://sync.twilio.com/v1/Services/' + twilio_sync_service_id + '/Maps/' + sync_map + '/Items'
@@ -369,14 +370,17 @@ def polly_text2speech():
 
 @app.route('/retrieve_asr_details', methods=['GET', 'POST'])
 def retrievetasrdetails():
-    sync_map_details = []
-    client = Client(twilio_account_sid, twilio_auth_token)
-    sync_map = 'ASRBotEvents'
-    map_items = client.sync.services(twilio_sync_service_id).sync_maps(sync_map).sync_map_items.list()
-    for item in map_items:
-        sync_map_details.append(item.data)   
-        # print (item.data)
-    return json.dumps(sync_map_details)
+    if (access_key == request.values.get('access_key', None)):
+        sync_map_details = []
+        client = Client(twilio_account_sid, twilio_auth_token)
+        sync_map = 'ASRBotEvents'
+        map_items = client.sync.services(twilio_sync_service_id).sync_maps(sync_map).sync_map_items.list()
+        for item in map_items:
+            sync_map_details.append(item.data)   
+            # print (item.data)
+        return json.dumps(sync_map_details)
+    else:
+        return 'Invalid Credential'
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug = True)
