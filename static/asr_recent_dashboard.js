@@ -154,19 +154,10 @@ var asrdashboard = new Vue({
     syncMapName = 'ASRBotEvents';
 
     syncClient.map(syncMapName).then(function(map) {
-        function processPage(page) {
-          //page.items.forEach(message => {console.log(message);});
-          asrdashboard.syncRetrieveCallMap(page.items);
-          if (page.hasNextPage) {
-            page.nextPage().then(processPage);
-          } else {
-            console.log("DEBUG:: All Map Items Retrieved.");
-          }
-        }
-        map.getItems({pageSize: 1000}).then(function(page) {
-          processPage(page);
-        });
-        console.log("Dashboard Ready!");
+      map.getItems({pageSize: 100, order: 'desc'}).then(function(page) {
+        //console.log('show first item', page.items[0].key, page.items[0].value);
+        asrdashboard.syncRetrieveCallMap(page.items);
+      });
     });
 
     syncClient.map(syncMapName).then(function (map) {
