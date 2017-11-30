@@ -22,9 +22,9 @@
                 <table class="ui table">
                         <thead>
                             <tr>
-                                <th class="two wide left aligned"><img src="/images/mandslogo.png" class="ui tiny image"></th>
-                                <th class="nine wide center aligned"><h2 class="ui center aligned header"> Marks and Spencer ASR Real-time Dashboard (+447481340408, +14158554800)</h2></th>                            
-                                <th class="one wide right aligned"><img src="/images/twiliologo.svg" class="ui small image"></th>
+                                <!-- <th class="two wide left aligned"><img src="/images/mandslogo.png" class="ui tiny image"></th> -->
+                                <th class="nine wide center aligned"><h2 class="ui center aligned header"> ASR Real-time Dashboard - Last 100 calls</h2></th>                            
+                                <!-- <th class="one wide right aligned"><img src="/images/twiliologo.svg" class="ui small image"></th> -->
                             </tr>
                         </thead>
                 </table>
@@ -56,7 +56,7 @@
                             <th class="one wide center aligned">From</th>
                             <th class="six wide center aligned">ASR</th>                            
                             <th class="two wide center aligned">ASR Confidence</th>
-                            <th class="two wide center aligned">Intent (Coming Soon)</th>
+                            <th class="two wide center aligned">Intent</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -65,7 +65,7 @@
                                 {{call.CallDate}}
                             </td>
                             <td class="center aligned"> 
-                                {{call.From}}
+                                "Redacted"
                             </td>
                             <td class="left aligned">
                                 <h3>{{call.SpeechResult}}</h3>
@@ -93,6 +93,6 @@
         <script src="https://unpkg.com/chart.js@2.7.1/dist/Chart.bundle.js"></script>
         <script src="https://unpkg.com/chartkick@2.2.4"></script>
         <script src="https://unpkg.com/vue-chartkick@0.2.0/dist/vue-chartkick.js"></script>
-        <script src="/asr_charts_dashboard.js"></script>
+        <script src="/asr_recent_dashboard.js"></script>
     </body>
 </html>
