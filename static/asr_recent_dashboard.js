@@ -169,18 +169,10 @@ var asrdashboard = new Vue({
         console.log("Dashboard Ready!");
     });
 
-    syncClient.map(syncMapName).then(function (map) {
-      //Note that there are two separate events for map item adds and map item updates:
-      map.on('itemAdded', function(item) {
-        // console.log('key', item.key);
-        console.log('New ASRBotEvents Data:', item);
-        asrdashboard.syncCallMap(item);
+    syncClient.map(syncMapName).then(function(map) {
+      map.getItems({pageSize: 100, order: 'desc'}).then(function(page) {
+        //console.log('show first item', page.items[0].key, page.items[0].value);
+        asrdashboard.syncRetrieveCallMap(page.items);
       });
-      // map.on('itemUpdated', function(item) {
-      //   // console.log('key', item.key);
-      //   console.log('Updated ASRBotEvents Data:', item);
-      //   //asrdashboard.syncCallMap(item);
-      // });
-
     });
-  });
+ 
