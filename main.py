@@ -374,7 +374,7 @@ def retrievetasrdetails():
         sync_map_details = []
         client = Client(twilio_account_sid, twilio_auth_token)
         sync_map = 'ASRBotEvents'
-        map_items = client.sync.services(twilio_sync_service_id).sync_maps(sync_map).sync_map_items.list()
+        map_items = client.sync.services(twilio_sync_service_id).sync_maps(sync_map).sync_map_items.list(page_size=1000)
         for item in map_items:
             sync_map_details.append(item.data)   
             # print (item.data)
