@@ -374,10 +374,13 @@ def retrievetasrdetails():
         sync_map_details = []
         client = Client(twilio_account_sid, twilio_auth_token)
         sync_map = 'ASRBotEvents'
-        map_items = client.sync.services(twilio_sync_service_id).sync_maps(sync_map).sync_map_items.list(page_size=1000)
+        map_items = client.sync.services(twilio_sync_service_id).sync_maps(sync_map).sync_map_items.list(page_size=100)
+        count = 0
         for item in map_items:
             sync_map_details.append(item.data)   
             # print (item.data)
+            count +=1
+            print (count)
         return json.dumps(sync_map_details)
     else:
         return 'Invalid Credential'
