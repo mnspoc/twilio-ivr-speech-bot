@@ -299,14 +299,17 @@ def apiai_fulfillment():
 def add_to_sync(request_dict,apiIntent):
     request_dict['initial_question'] = ''
     request_dict['CallDate'] = datetime.now().strftime("%Y-%m-%d-%H:%M:%S")
-    request_dict['Intent'] = apiIntent
+    if (request_dict['SpeechResult'] is None):
+        request_dict['Intent'] = 'Caller said nothing'  
+     else:  
+    	request_dict['Intent'] = apiIntent
     callback_data = json.dumps(request_dict)
-    print(callback_data)
+    # print(callback_data)
 
     item_key = request_dict['CallSid']
     new_data = {'Key': item_key,
             'Data': callback_data}
-    print(new_data)
+    # print(new_data)
     sync_map = 'ASRBotEvents'
     url = 'https://sync.twilio.com/v1/Services/' + twilio_sync_service_id + '/Maps/' + sync_map + '/Items'
     response = requests.request("POST", url, data=new_data, auth=HTTPBasicAuth(twilio_account_sid, twilio_auth_token))
