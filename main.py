@@ -302,8 +302,9 @@ def add_to_sync(request_dict,apiIntent):
     if ('SpeechResult' in request_dict):
     	if (request_dict['SpeechResult'] is None):
              request_dict['Intent'] = 'Caller said nothing'  
-    	else:  
+    else:  
          request_dict['Intent'] = apiIntent
+
     callback_data = json.dumps(request_dict)
     # print(callback_data)
 
