@@ -299,12 +299,7 @@ def apiai_fulfillment():
 def add_to_sync(request_dict,apiIntent):
     request_dict['initial_question'] = ''
     request_dict['CallDate'] = datetime.now().strftime("%Y-%m-%d-%H:%M:%S")
-    if ('SpeechResult' in request_dict):
-    	if (request_dict['SpeechResult'] is None):
-             request_dict['Intent'] = 'Caller said nothing'  
-    else:  
-         request_dict['Intent'] = apiIntent
-
+    request_dict['Intent'] = apiIntent
     callback_data = json.dumps(request_dict)
     # print(callback_data)
 
