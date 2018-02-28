@@ -158,7 +158,8 @@ def process_speech():
              audioFiles = output_text.split('|');
              for audioFile in audioFiles :
                     resp.play(audioFile);
-             resp.dial(mnsphonenumber); 
+             #resp.dial(mnsphonenumber); 
+	     resp.dial.sip(mns_genesys_sip+'?mycustomheader=foo&myotherheader=bar');
 	     add_to_sync(local_request_dict,apiai_intent_name)
           else:
             values = {"prior_text": output_text, "prior_dialog_state": dialog_state}
@@ -189,7 +190,8 @@ def process_speech():
              audioFiles = output_text.split('|');
              for audioFile in audioFiles :
                     resp.play(audioFile);
-             resp.dial(mnsphonenumber);
+             #resp.dial(mnsphonenumber);
+	     resp.dial.sip(mns_genesys_sip+'?mycustomheader=foo&myotherheader=bar');
 	     add_to_sync(local_request_dict,apiai_intent_name)	
           else:
             values = {"text": output_text,
@@ -198,7 +200,8 @@ def process_speech():
             }
             qs = urllib.urlencode(values)
             resp.play(hostname + 'polly_text2speech?' + qs)
-            resp.dial(mnsphonenumber)
+            #resp.dial(mnsphonenumber)
+	    resp.dial.sip(mns_genesys_sip+'?mycustomheader=foo&myotherheader=bar');
 	    add_to_sync(local_request_dict, apiai_intent_name)		
         elif dialog_state in ['Failed']:
 	  if  'https://' in output_text:
