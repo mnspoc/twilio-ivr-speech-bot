@@ -33,6 +33,8 @@ twilio_api_key = os.environ["TWILIO_API_KEY"]
 twilio_api_secret = os.environ["TWILIO_API_SECRET"]
 access_key = os.environ["ACCESS_KEY"]
 mns_genesys_sip = os.environ["TWILIO_GENESYS_SIP"]
+dialSip = Dial()
+dialSip.sip(mns_genesys_sip+'?mycustomheader=foo&myotherheader=bar');
 
 
 sync_map = 'ASRBotEvents'
@@ -191,7 +193,7 @@ def process_speech():
              for audioFile in audioFiles :
                     resp.play(audioFile);
              #resp.dial(mnsphonenumber);
-	     resp.dial.sip(mns_genesys_sip+'?mycustomheader=foo&myotherheader=bar');
+	     resp.append(dialSip);
 	     add_to_sync(local_request_dict,apiai_intent_name)	
           else:
             values = {"text": output_text,
