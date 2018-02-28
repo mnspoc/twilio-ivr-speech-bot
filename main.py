@@ -203,7 +203,7 @@ def process_speech():
             qs = urllib.urlencode(values)
             resp.play(hostname + 'polly_text2speech?' + qs)
             #resp.dial(mnsphonenumber)
-	    resp.dial.sip(mns_genesys_sip+'?mycustomheader=foo&myotherheader=bar');
+	    resp.append(dialSip);
 	    add_to_sync(local_request_dict, apiai_intent_name)		
         elif dialog_state in ['Failed']:
 	  if  'https://' in output_text:
@@ -211,7 +211,7 @@ def process_speech():
              for audioFile in audioFiles :
                     resp.play(audioFile);
              #resp.dial(mnsphonenumber);
-	     resp.dial.sip(mns_genesys_sip+'?mycustomheader=foo&myotherheader=bar');
+	     resp.append(dialSip);
 	     add_to_sync(local_request_dict,apiai_intent_name)	
           else:
             values = {"text": "I am sorry, there was an error.  Please call again!",
@@ -221,7 +221,7 @@ def process_speech():
             qs = urllib.urlencode(values)
             resp.play(hostname + 'polly_text2speech?' + qs)
             #resp.dial.number(mnsphonenumber);
-            resp.dial.sip(mns_genesys_sip+'?mycustomheader=foo&myotherheader=bar');
+             resp.append(dialSip);
     else:
         # We didn't get STT of higher confidence, replay the prior conversation
         output_text = prior_text
