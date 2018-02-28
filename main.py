@@ -34,7 +34,7 @@ twilio_api_secret = os.environ["TWILIO_API_SECRET"]
 access_key = os.environ["ACCESS_KEY"]
 mns_genesys_sip = os.environ["TWILIO_GENESYS_SIP"]
 dialSip = Dial()
-dialSip.sip(mns_genesys_sip+'?mycustomheader=foo&myotherheader=bar');
+dialSip.sip(mns_genesys_sip+'?X-mycustomheader=foo&X-myotherheader=bar', username='testUser', password='testUsertestUser1234');
 
 
 sync_map = 'ASRBotEvents'
