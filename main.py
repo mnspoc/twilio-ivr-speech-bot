@@ -161,7 +161,7 @@ def process_speech():
              for audioFile in audioFiles :
                     resp.play(audioFile);
              #resp.dial(mnsphonenumber); 
-	     resp.dial.sip(mns_genesys_sip+'?mycustomheader=foo&myotherheader=bar');
+	     resp.append(dialSip);
 	     add_to_sync(local_request_dict,apiai_intent_name)
           else:
             values = {"prior_text": output_text, "prior_dialog_state": dialog_state}
