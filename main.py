@@ -221,7 +221,7 @@ def process_speech():
             qs = urllib.urlencode(values)
             resp.play(hostname + 'polly_text2speech?' + qs)
             #resp.dial.number(mnsphonenumber);
-             resp.append(dialSip);
+            resp.append(dialSip);
     else:
         # We didn't get STT of higher confidence, replay the prior conversation
         output_text = prior_text
