@@ -32,6 +32,8 @@ twilio_auth_token = os.environ["TWILIO_AUTH_TOKEN"]
 twilio_api_key = os.environ["TWILIO_API_KEY"]
 twilio_api_secret = os.environ["TWILIO_API_SECRET"]
 access_key = os.environ["ACCESS_KEY"]
+mns_genesys_sip = os.environ["TWILIO_GENESYS_SIP"]
+
 
 sync_map = 'ASRBotEvents'
 syncUrl = 'https://sync.twilio.com/v1/Services/' + twilio_sync_service_id + '/Maps/' + sync_map + '/Items'
@@ -203,7 +205,8 @@ def process_speech():
              audioFiles = output_text.split('|');
              for audioFile in audioFiles :
                     resp.play(audioFile);
-             resp.dial(mnsphonenumber);
+             #resp.dial(mnsphonenumber);
+	     resp.dial.sip(mns_genesys_sip+'?mycustomheader=foo&myotherheader=bar');
 	     add_to_sync(local_request_dict,apiai_intent_name)	
           else:
             values = {"text": "I am sorry, there was an error.  Please call again!",
@@ -212,7 +215,8 @@ def process_speech():
             }
             qs = urllib.urlencode(values)
             resp.play(hostname + 'polly_text2speech?' + qs)
-            resp.dial.number(mnsphonenumber);
+            #resp.dial.number(mnsphonenumber);
+            resp.dial.sip(mns_genesys_sip+'?mycustomheader=foo&myotherheader=bar');
     else:
         # We didn't get STT of higher confidence, replay the prior conversation
         output_text = prior_text
